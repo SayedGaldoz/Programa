@@ -1,1 +1,1 @@
-# Librerías de Python del proyecto (una por línea, por ejemplo: pandas==2.2.3)
+Flask>=3.0

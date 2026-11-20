@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumnos - Patrón MVC</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Registro de alumnos</h1>
+    <p>Ejemplo del patrón Modelo – Vista – Controlador</p>
+  </header>
+
+  <main>
+    {% if mensaje %}
+      <div class="mensaje">{{ mensaje }}</div>
+    {% endif %}
+
+    <section class="tarjeta">
+      <h2>Agregar alumno</h2>
+      <form method="post" action="{{ url_for('alumnos.agregar') }}">
+        <input name="nombre" placeholder="Nombre" required>
+        <input name="carrera" placeholder="Carrera" required>
+        <input name="promedio" type="number" step="0.1" min="0" max="10" placeholder="Promedio" required>
+        <button type="submit">Guardar</button>
+      </form>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Lista de alumnos</h2>
+      <p>Total: <strong>{{ total }}</strong> &nbsp;|&nbsp; Promedio general: <strong>{{ promedio_general }}</strong></p>
+      {% if alumnos %}
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Nombre</th><th>Carrera</th><th>Promedio</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for alumno in alumnos %}
+          <tr>
+            <td>{{ alumno.id }}</td>
+            <td>{{ alumno.nombre }}</td>
+            <td>{{ alumno.carrera }}</td>
+            <td>{{ "%.2f"|format(alumno.promedio) }}</td>
+            <td>
+              <form method="post" action="{{ url_for('alumnos.eliminar', id_alumno=alumno.id) }}">
+                <button class="eliminar" type="submit">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No hay alumnos registrados todavía.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
